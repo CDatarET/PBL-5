@@ -1,4 +1,4 @@
-# PBL-6
+# PBL-5
 AVL Trees
 
 AVL Trees (AVL Trees) are a type of self-balancing Binary Search Tree (BST) used in data structures to keep the tree balanced after insertions and deletions. The name comes from the inventors Georgy Adelson-Velsky and Evgenii Landis.
