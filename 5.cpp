@@ -28,48 +28,68 @@ class Tree{
 
         int diff(TreeNode *current){
             return(height(current->left) - height(current->right));
-        
         }
 
-        TreeNode *rr(TreeNode*);
-        TreeNode *ll(TreeNode*);
-        TreeNode *lr(TreeNode*);
-        TreeNode *rl(TreeNode*);
-        TreeNode *balance(TreeNode*);
+        TreeNode *rr(TreeNode *current){
+            TreeNode* t = current->right;
+    	    current->right = t->left;
+    	    t->left = current;
+    	    return(t);
+        }
+
+        TreeNode *ll(TreeNode *current){
+            TreeNode* t = current->left;
+    	    current->left = t->right;
+    	    t->right = current;
+    	    return(t);
+        }
+
+        TreeNode *lr(TreeNode *current){
+            TreeNode *t = current->left;
+            current->left = rr(t);
+            return(ll(current));
+        }
+
+        TreeNode *rl(TreeNode *current){
+            TreeNode *t = current->right;
+            current->right = ll(t);
+            return(rr(current));
+        }
+
+        TreeNode *balance(TreeNode *current){
+            int bal = diff(current);
+            if (bal > 1){
+                if (diff(current->left) > 0){
+                    current = ll(current);
+                }
+                else{
+                    current = lr(current);
+                }
+            }
+            else if(bal < -1){
+                if(diff(current->right) > 0){
+                    current = rl(current);
+                }
+                else{
+                    current = rr(current);
+                }
+            }
+            return(current);
+        }
+
         TreeNode *insert(TreeNode*, TreeNode*);
         void insert();
         void create();
-        void disp(TreeNode*, int);
 
-        void inorder(TreeNode *root){
-            if(root == nullptr){
+        void inorder(TreeNode *current){
+            if(current == nullptr){
                 return;
             }
 
-            inorder(root->left);
-            cout << "Word: " << root->word << "\nMeaning: " << root->meaning << endl << endl;
-            inorder(root->right);
+            inorder(current->left);
+            cout << "Word: " << current->word << "\nMeaning: " << current->meaning << endl << endl;
+            inorder(current->right);
         
-        }
-
-        void preorder(TreeNode *root){
-            if(root == nullptr){
-                return;
-            }
-
-            cout << "Word: " << root->word << "\nMeaning: " << root->meaning << endl << endl;
-            inorder(root->left);
-            inorder(root->right);
-        }
-
-        void postorder(TreeNode *root){
-            if(root == nullptr){
-                return;
-            }
-
-            inorder(root->left);
-            inorder(root->right);
-            cout << "Word: " << root->word << "\nMeaning: " << root->meaning << endl << endl;
         }
 };
 
