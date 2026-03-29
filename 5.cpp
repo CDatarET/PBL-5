@@ -58,7 +58,7 @@ class Tree{
 
         TreeNode *balance(TreeNode *current){
             int bal = diff(current);
-            if (bal > 1){
+            if(bal > 1){
                 if (diff(current->left) > 0){
                     current = ll(current);
                 }
@@ -77,9 +77,37 @@ class Tree{
             return(current);
         }
 
-        TreeNode *insert(TreeNode*, TreeNode*);
-        void insert();
-        void create();
+        TreeNode* insert(TreeNode *r, TreeNode *t){
+            if(r == nullptr){
+                return(t);
+            }
+
+            if(t->word < r->word){
+                r->left = insert(r->left, t);
+                r = balance(r);
+            }
+            else{
+                r->right = insert(r->right, t);
+                r = balance(r);
+            }
+
+            return(r);
+        }
+
+        void insert(){
+            char yn = 'y';
+            while(yn == 'y'){
+                TreeNode *t = new TreeNode;
+                cout << "\nEnter word: ";
+                cin >> t->word;
+                cout << "Enter meaning: ";
+                cin >> t->meaning;
+                root = insert(root, t);
+
+                cout << "Enter another word? y/n: ";
+                cin >> yn;
+            }
+        }
 
         void inorder(TreeNode *current){
             if(current == nullptr){
@@ -91,32 +119,18 @@ class Tree{
             inorder(current->right);
         
         }
-};
 
-void Tree::insert(){
-    char yn = 'y';
-    while(yn == 'y'){
-        TreeNode *t = new TreeNode;
-        cout << "\nEnter word: ";
-        cin >> t->word;
-        cout << "Enter meaning: ";
-        cin >> t->meaning;
-
-        if(root == nullptr){
-            root = t;
+        void disp(){
+            inorder(root);
         }
-
-        cout << "Enter another word? y/n: ";
-        cin >> yn;
-    }
-}
+};
 
 int main(){
     cout << "Hello World" << endl;
 
     Tree t;
-    cout << "Created Tree" << endl;
     t.insert();
+    t.disp();
 
     return(0);
 }
